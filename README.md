@@ -1,2 +1,2 @@
 # Arbitrage-betting
-gets data from different sports books to show arbitrage bets available 
+gets money lines from different sports books to show arbitrage bets available 

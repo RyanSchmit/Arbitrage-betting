@@ -1,0 +1,37 @@
+American Odds (Money Spread)
+(-) is always the favorite 
+Bet more $, Win less $ because of the better odds
+
+(+) is always the underdog
+Bet less $, Win more $
+
+Example: 
+-120 Bills 
++100 Jets
+
+Put $120 on the Bills, I gain $100 and get my money back, so my payout (I walk away with) 
+is $220
+
+If I put $100, I make $100, and payout of $200
+
+Fractional Odds
+
+Example:
+80/1 Rich Strike
+
+Put $100 on Rich Strike, I get a payout of $8,000
+
+Point Spread:
+(-) favorite team has to win by that amount of spread 
+(+) underdog team has to lose by less than that amount of points
+
+Example
+-3.5 Mets 
++3.5 Marlines 
+
+Put $100 on the Mets, they have to win by 4
+
+Put $100 on the Marlines, they have to loses by less than 4
+
+Negative Odds A->D (100/Odds) + 1 
+Positive Odds A->D (Odds/100) + 1
