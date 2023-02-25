@@ -2,7 +2,7 @@
 import web_scrape
 
 def main():
-	urls = ['https://sportsbook.fanduel.com/soccer', 'https://www.barstoolsportsbook.com/sports/football?category=upcoming']
+	urls = ['https://www.bovada.lv/sports', 'https://www.betonline.ag/sportsbook']
 	for url in urls:
 		web_scrape.scrape_page(url)
 		

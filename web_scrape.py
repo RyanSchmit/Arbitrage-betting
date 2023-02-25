@@ -6,6 +6,8 @@
 # Only scrape data from non-major sports including: soccer, tennis,
 # e-sports, basketball, rugby 
 
+# Start with the websites Bovada and DraftKings 
+
 from urllib.request import urlopen
 
 def scrape_page(url):
