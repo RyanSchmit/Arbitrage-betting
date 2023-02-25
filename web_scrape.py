@@ -53,4 +53,22 @@ def team_swap(team1, team2, line1, line2):
 	         with matching money lines
 	"""
 
+def snake_case(string):
+    """
+    Replace all spaces in a string with underscores and lowercase all letters.
+    TODO: Complete this function. It must use a "for" loop.
+    :param string: A string to be snake-cased
+    :return: The snake-cased string
+    """
+    newString = ''
+   
+    for c in string:
+        if c == ' ':
+           newString += '_'
+        elif type(c) == str:
+           newString += c.lower()
+        else:
+           newString += c 
+    return newString
+
 	
