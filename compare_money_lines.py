@@ -27,14 +27,14 @@ def find_different_underdog(same_game_keys, games1, games2):
     # betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
 	# form of the return dict:
 	# {bovada-betonline: ["mets-giants", [+200, -150], [-200, +150]]}
-	arb_games = [None, None, None]
+	arb_games = [[None, None, None]]
 	new_dct = {"bovada-betonline": arb_games}
 	for game in same_game_keys:
 		odds1 = games1[game]
 		odds2 = games2[game]
-		if (odds1[0] > 0 and odds2[0]) < 0 or (odds1[0] < 0 and odds2[0] > 0):
-			if new_dct["bovada-betonline"] == [None, None, None]:
-				new_dct["bovada-betonline"] = [game, odds1, odds2]
+		if (odds1[0] > 0 and odds2[0] < 0) or (odds1[0] < 0 and odds2[0] > 0):
+			if arb_games == [[None, None, None]]:
+				arb_games[0] = [game, odds1, odds2]
 			else:
 				arb_games.append([game, odds1, odds2])
 	return new_dct

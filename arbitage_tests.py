@@ -40,7 +40,7 @@ class TestArbitrage(unittest.TestCase):
                 bovada = ["mets-giants", "padres-cardinals"]
                 betonline = ["padres-cardinals", "mets-giants"]
                 same_money_lines = compare_money_lines.find_same_bets(bovada, betonline)
-                expected = ["padres-cardinals", "mets-giants"]
+                expected = ['padres-cardinals', 'mets-giants']
                 self.assertEqual(same_money_lines, expected)
         
         def test10_find_same_bets(self):
@@ -55,7 +55,7 @@ class TestArbitrage(unittest.TestCase):
                 bovada = {"mets-giants": [+200, -150], "padres-blue_jays": [+150, -100]}
                 betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
                 different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
-                expected = {"bovada-betonline": ["mets-giants", [+200,-150], [-200, +150]]}
+                expected = {"bovada-betonline": [["mets-giants", [+200,-150], [-200, +150]]]}
                 self.assertDictEqual(different_underdog, expected)
 
         def test12_find_different_underdog(self):
@@ -63,11 +63,11 @@ class TestArbitrage(unittest.TestCase):
                 bovada = {"mets-giants": [+200, -150], "padres-blue_jays": [+150, -100]}
                 betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [+220, -140]}
                 different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
-                expected = {"bovada-betonline": [None, None, None]}
+                expected = {"bovada-betonline": [[None, None, None]]}
                 self.assertDictEqual(different_underdog, expected)
 
         def test13_find_different_underdog(self):
-                same_game_keys = ["mets-giants"]
+                same_game_keys = ["mets-giants", "cardinals-yankees"]
                 bovada = {"mets-giants": [+200, -150], "cardinals-yankees": [+150, -100]}
                 betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
                 different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
