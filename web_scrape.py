@@ -1,4 +1,4 @@
-# Defines function to scrape a website for the money lines 
+# Defines function to parse raw betting data
 
 # Major sports (don't scrape): soccer, basketball, baseball, football, rugby, 
 # tennis, hockey, horse racing, politics
@@ -7,40 +7,17 @@
 # e-sports, basketball, rugby 
 
 # Start with the websites Bovada and DraftKings 
-
-from urllib.request import urlopen
-
-def scrape_page(url):
-	"""
-	Parse the website 
-
-	:param: url: the url of the website to parse 
-	:return: the html og a url  
-	"""
-	url = "https://sportsbook.fanduel.com/soccer"
-	page = urlopen(url)
-	print(page)
-	html_bytes = page.read()
-	html = html_bytes.decode("utf-8")
-	print(html)
-
-def extract_money_lines(html):
-	"""
-	Parse the html
-
-	:param: html: the html of a webpage
-	:return: the money lines 
-	"""
-
+import getBovadaBets
 
 # Money line dict form:
 # {Team1-Team2: [MoneyLine1, MoneyLine2], Mets-Giants: [+200, -150]}
-def create_money_lines_dict(money_lines):
+def create_money_lines_dict(names, money_lines):
 	"""
-	Parse the money lines
+	Create dicts of all available money lines for each website 
 
-	:param: money lines: the raw money lines from the html 
-	:return: the money lines dict 
+   :param: names: the array of names of teams scraped from a website 
+	:param: money_lines: the array of money lines 
+	:return: the money lines dict for a website
 	"""
 
 def team_swap(team1, team2, line1, line2):
@@ -58,7 +35,6 @@ def team_swap(team1, team2, line1, line2):
 def snake_case(string):
     """
     Replace all spaces in a string with underscores and lowercase all letters.
-    TODO: Complete this function. It must use a "for" loop.
     :param string: A string to be snake-cased
     :return: The snake-cased string
     """

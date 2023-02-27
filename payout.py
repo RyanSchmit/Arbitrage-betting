@@ -63,6 +63,3 @@ def calculate_profit(bet1, bet2, payout):
 	"""
 	profit = payout - (bet1 + bet2) 
 	return profit 
-
-
-
