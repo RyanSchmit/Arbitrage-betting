@@ -90,8 +90,8 @@ def get_bets(html):
     #     return names, money_lines
     # Check if money line is empty
     # elif len(money_lines) > len(names):
-    money_lines = money_lines[:(len(names) - 2)]
-    names = names[:(len(money_lines) - 2)]
+    # money_lines = money_lines[:(len(names) - 2)]
+    # names = names[:(len(money_lines) - 2)]
     return names, money_lines
     # else:
         # Remove the extra money lines

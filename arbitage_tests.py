@@ -44,7 +44,7 @@ class TestArbitrage(unittest.TestCase):
                 string = games_creator.snake_case("12343143241234 Ryan bob John Mic miKe Bob")
                 self.assertEqual(string, "12343143241234_ryan_bob_john_mic_mike_bob")
 
-        def test11_create_money_lines_dict(self):
+        def test11_create_games(self):
                 names = ['Richmond Tigers', 'Carlton Blues', 'Geelong Cats', 'Collingwood Magpies']
                 money_lines = ['-150', '+115', '-205', '+155']
                 expected = [games_creator.Game('richmond_tigers', 'carlton_blues', -150, 115), games_creator.Game('geelong_cats', 'collingwood_magpies', -205, +155)]
@@ -57,6 +57,36 @@ class TestArbitrage(unittest.TestCase):
                 expected = {'collingwood_magpies/geelong_cats': [games_creator.Game('geelong_cats', 'collingwood_magpies', -205, +155), games_creator.Game('geelong_cats', 'collingwood_magpies', -150, +155)]}
                 common_games = compare_money_lines.find_same_bets(bovada, my_bookie)
                 self.assertEqual(common_games, expected)
+
+        def test13_find_arbitrage_opportunities(self):
+                game1 = games_creator.Game('geelong_cats', 'collingwood_magpies', -205, -155)
+                game2 = games_creator.Game('geelong_cats', 'collingwood_magpies', -150, -155)
+                result = compare_money_lines.arbitrage_opportunity(game1, game2)
+                self.assertEqual(result, "No, because there isn't any underdog on either or both websites.")
+
+        def test14_find_arbitrage_opportunities(self):
+                game1 = games_creator.Game('geelong_cats', 'collingwood_magpies', +135, -200)
+                game2 = games_creator.Game('geelong_cats', 'collingwood_magpies', +150, -180)
+                result = compare_money_lines.arbitrage_opportunity(game1, game2)
+                self.assertEqual(result, "No, because the underdog is the same.")
+
+        def test15_find_arbitrage_opportunities(self):
+                game1 = games_creator.Game('geelong_cats', 'collingwood_magpies', +135, -200)
+                game2 = games_creator.Game('geelong_cats', 'collingwood_magpies', -150, +150)
+                result = compare_money_lines.arbitrage_opportunity(game1, game2)
+                self.assertEqual(result, "Possible arbitrage")
+
+        def test16_find_arbitrage_opportunities(self):
+                game1 = games_creator.Game('geelong_cats', 'collingwood_magpies', -190, +145)
+                game2 = games_creator.Game('collingwood_magpies', 'geelong_cats', +143, -200)
+                result = compare_money_lines.arbitrage_opportunity(game1, game2)
+                self.assertEqual(result, "No, because the underdog is the same.")
+
+        # def test17_find_arbitrage_opportunities(self):
+        #         game1 = games_creator.Game('geelong_cats', 'collingwood_magpies', +135, -200)
+        #         game2 = games_creator.Game('collingwood_magpies', 'geelong_cats', +150, -150)
+        #         result = compare_money_lines.arbitrage_opportunity(game1, game2)
+        #         self.assertEqual(result, "Possible arbitrage")
 
 if __name__ == "__main__":
         unittest.main()
