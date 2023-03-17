@@ -1,40 +1,47 @@
 # Defines functions to compare the money line from different websites 
-# {team1-team2: [MoneyLine1, MoneyLine2], mets-giants: [+200, -150]}
+# Change to check for each team having different odds
 
 def find_same_bets(games1, games2):
 	"""
-	Find the same game from different websites 
+	Find the same team from different websites 
 
 	:param: games1: the names of the games from the first website 
 	:param: games2: the names of the games from the second website  
-	:return: the name of the games that are the same
+	:return: the name of the games that are several websites and the differing odds
 	"""
-	same_games = set(games1) & set(games2)
-	same_games = list(same_games)
-	return same_games
-
-def find_different_underdog(same_game_keys, games1, games2):
-	"""
-	Calculates the payout for American odds
-
-	:param: same_game_keys: all of the games that are the same on too different 
-			websites
-	:param: games1: the dict of all of the games from the first website 
-	:param: games2: the dict of all of the games from the second website 
-	:return: a dict that contains the games that have different underdogs
-	"""
-	# bovada = {"mets-giants": [+200, -150], "padres-blue_jays": [+150, -100]}
-    # betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
-	# form of the return dict:
-	# {bovada-betonline: ["mets-giants", [+200, -150], [-200, +150]]}
-	arb_games = [[None, None, None]]
-	new_dct = {"bovada-betonline": arb_games}
-	for game in same_game_keys:
-		odds1 = games1[game]
-		odds2 = games2[game]
-		if (odds1[0] > 0 and odds2[0] < 0) or (odds1[0] < 0 and odds2[0] > 0):
-			if arb_games == [[None, None, None]]:
-				arb_games[0] = [game, odds1, odds2]
-			else:
-				arb_games.append([game, odds1, odds2])
-	return new_dct
+	seen_games = {}
+	for game in games1:
+		team1 = game.team1
+		team2 = game.team2
+		if game.team1 > game.team2:
+			team1 = game.team2
+			team2 = game.team1
+		game_name = team1 + "/" + team2
+		if game_name in seen_games:
+			current_games = seen_games[game_name]
+			new_games = [current_games, game]
+			seen_games[game_name] = new_games
+		else:
+			seen_games[game_name] = game
+	
+	for game in games2:
+		team1 = game.team1
+		team2 = game.team2
+		if game.team1 > game.team2:
+			team1 = game.team2
+			team2 = game.team1
+		game_name = team1 + "/" + team2
+		if game_name in seen_games:
+			current_games = seen_games[game_name]
+			new_games = [current_games, game]
+			seen_games[game_name] = new_games
+		else:
+			seen_games[game_name] = game
+	
+	keys = seen_games.keys()
+	pos_arbs = {}
+	for key in keys:
+		type_of = type(seen_games[key])
+		if type_of == list:
+			pos_arbs[key] = seen_games[key]
+	return pos_arbs

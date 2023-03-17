@@ -1,7 +1,7 @@
 import unittest
 import payout
 import compare_money_lines
-import web_scrape
+import games_creator
 
 class TestArbitrage(unittest.TestCase):
         def test01_payout(self):
@@ -35,44 +35,28 @@ class TestArbitrage(unittest.TestCase):
         def test08_calculate_profit(self):
                 profit = payout.calculate_profit(25, 17.86, 62.50)
                 self.assertEqual(profit, 19.64)
-
-        def test09_find_same_bets(self):
-                bovada = ["mets-giants", "padres-cardinals"]
-                betonline = ["padres-cardinals", "mets-giants"]
-                same_money_lines = compare_money_lines.find_same_bets(bovada, betonline)
-                expected = ['padres-cardinals', 'mets-giants']
-                self.assertEqual(same_money_lines, expected)
         
-        def test10_find_same_bets(self):
-                bovada = ["dodger-phillies", "white_sox-blue_jays"]
-                betonline = ["padres-cardinals", "mets-giants"]
-                same_money_lines = compare_money_lines.find_same_bets(bovada, betonline)
-                expected = []
-                self.assertEqual(same_money_lines, expected)
+        def test09_snake_case(self):
+                string = games_creator.snake_case("Blue Jays")
+                self.assertEqual(string, "blue_jays")
+        
+        def test10_snake_case(self):
+                string = games_creator.snake_case("12343143241234 Ryan bob John Mic miKe Bob")
+                self.assertEqual(string, "12343143241234_ryan_bob_john_mic_mike_bob")
 
-        def test11_find_different_underdog(self):
-                same_game_keys = ["mets-giants"]
-                bovada = {"mets-giants": [+200, -150], "padres-blue_jays": [+150, -100]}
-                betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
-                different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
-                expected = {"bovada-betonline": [["mets-giants", [+200,-150], [-200, +150]]]}
-                self.assertDictEqual(different_underdog, expected)
+        def test11_create_money_lines_dict(self):
+                names = ['Richmond Tigers', 'Carlton Blues', 'Geelong Cats', 'Collingwood Magpies']
+                money_lines = ['-150', '+115', '-205', '+155']
+                expected = [games_creator.Game('richmond_tigers', 'carlton_blues', -150, 115), games_creator.Game('geelong_cats', 'collingwood_magpies', -205, +155)]
+                games = games_creator.create_games(names, money_lines)
+                self.assertEqual(games, expected)
 
-        def test12_find_different_underdog(self):
-                same_game_keys = ["mets-giants"]
-                bovada = {"mets-giants": [+200, -150], "padres-blue_jays": [+150, -100]}
-                betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [+220, -140]}
-                different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
-                expected = {"bovada-betonline": [[None, None, None]]}
-                self.assertDictEqual(different_underdog, expected)
-
-        def test13_find_different_underdog(self):
-                same_game_keys = ["mets-giants", "cardinals-yankees"]
-                bovada = {"mets-giants": [+200, -150], "cardinals-yankees": [+150, -100]}
-                betonline = {"cardinals-yankees": [-150, +100], "mets-giants": [-200, +150]}
-                different_underdog = compare_money_lines.find_different_underdog(same_game_keys, bovada, betonline)
-                expected = {"bovada-betonline": [["mets-giants", [+200,-150], [-200, +150]], ["cardinals-yankees", [+150, -100], [-150, +100]]]}
-                self.assertDictEqual(different_underdog, expected)
+        def test12_find_same_bets(self):
+                bovada = [games_creator.Game('richmond_tigers', 'carlton_blues', -150, 115), games_creator.Game('geelong_cats', 'collingwood_magpies', -205, +155)]
+                my_bookie = [games_creator.Game('geelong_cats', 'collingwood_magpies', -150, +155)]
+                expected = {'collingwood_magpies/geelong_cats': [games_creator.Game('geelong_cats', 'collingwood_magpies', -205, +155), games_creator.Game('geelong_cats', 'collingwood_magpies', -150, +155)]}
+                common_games = compare_money_lines.find_same_bets(bovada, my_bookie)
+                self.assertEqual(common_games, expected)
 
 if __name__ == "__main__":
         unittest.main()
